@@ -53,6 +53,12 @@ while true; do
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         printf "\e[0mStart removing folder(s)\n"
         sleep 2
+
+        printf "\e[0mKilling process before removing(s)\n"
+        if [[ $(pgrep -f Flipper.app) ]]; then kill $(pgrep -f Flipper.app); fi
+        if [[ $(pgrep -f Xcode.app) ]]; then kill $(pgrep -f Xcode.app); fi
+        killall -9 com.apple.CoreSimulator.CoreSimulatorService
+
         printf "\e[0mRemoving folder(s)\n"
         for ((i = 0; i < ${#FOLDERS[@]}; i++)); do
             sudo rm -rf "${FOLDERS[$i]}"
