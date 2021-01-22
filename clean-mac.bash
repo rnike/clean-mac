@@ -20,7 +20,7 @@ CAN_REMOVE=false
 PRINT_FOLDERS=""
 for ((i = 0; i < ${#FOLDERS[@]}; i++)); do
     if [ -d "${FOLDERS[$i]}" ]; then
-        PRINT_FOLDERS+="\e[0m\e[96mo\t$(du -hs "${FOLDERS[$i]}")\n"
+        PRINT_FOLDERS+="\e[0m\e[96mo\t$(sudo du -hs "${FOLDERS[$i]}")\n"
         CAN_REMOVE=true
     else
         PRINT_FOLDERS+="\e[2m\e[39mx\tNONE\t"${FOLDERS[$i]}"\n"
@@ -47,7 +47,7 @@ while true; do
         sleep 2
         printf "\e[0mRemoving folder(s)\n"
         for ((i = 0; i < ${#FOLDERS[@]}; i++)); do
-            rm -rf "${FOLDERS[$i]}"
+            sudo rm -rf "${FOLDERS[$i]}"
         done
         printf "\e[0mComplete\n"
         break
