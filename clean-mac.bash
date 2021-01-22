@@ -14,6 +14,14 @@ FOLDERS=(
     ~/Library/Developer/Xcode/Archives
     $(getconf DARWIN_USER_CACHE_DIR)org.llvm.clang/ModuleCache
     $(getconf DARWIN_USER_CACHE_DIR)org.llvm.clang.$(whoami)/ModuleCache
+    # Others
+    ~/Library/Developer/CoreSimulator
+    ~/Library/Application\ Support/Flipper
+    ~/Library/Containers/com.apple.AppStore/Data/Library/Caches
+    ~/Library/Logs
+    /var/log
+    /System/Library/Caches/com.apple.coresymbolicationd
+    /Library/Caches/com.apple.iconservices.store
 )
 
 CAN_REMOVE=false
