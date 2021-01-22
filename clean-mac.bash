@@ -57,12 +57,19 @@ while true; do
         printf "\e[0mKilling process before removing(s)\n"
         if [[ $(pgrep -f Flipper.app) ]]; then kill $(pgrep -f Flipper.app); fi
         if [[ $(pgrep -f Xcode.app) ]]; then kill $(pgrep -f Xcode.app); fi
-        killall -9 com.apple.CoreSimulator.CoreSimulatorService
+        sudo killall -9 com.apple.CoreSimulator.CoreSimulatorService &>/dev/null
+        sleep 2
 
         printf "\e[0mRemoving folder(s)\n"
         for ((i = 0; i < ${#FOLDERS[@]}; i++)); do
             sudo rm -rf "${FOLDERS[$i]}"
         done
+        sleep 1
+
+        # Recreate default simulators
+        xcrun simctl list &>/dev/null
+        xcrun simctl erase all
+
         printf "\e[0mComplete\n"
         break
     elif [[ $REPLY =~ ^[Nn]$ ]]; then
