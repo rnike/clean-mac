@@ -14,6 +14,14 @@ FOLDERS=(
     ~/Library/Developer/Xcode/Archives
     $(getconf DARWIN_USER_CACHE_DIR)org.llvm.clang/ModuleCache
     $(getconf DARWIN_USER_CACHE_DIR)org.llvm.clang.$(whoami)/ModuleCache
+    # Others
+    ~/Library/Developer/CoreSimulator
+    ~/Library/Application\ Support/Flipper
+    ~/Library/Containers/com.apple.AppStore/Data/Library/Caches
+    ~/Library/Logs
+    /var/log
+    /System/Library/Caches/com.apple.coresymbolicationd
+    /Library/Caches/com.apple.iconservices.store
 )
 
 CAN_REMOVE=false
@@ -45,10 +53,23 @@ while true; do
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         printf "\e[0mStart removing folder(s)\n"
         sleep 2
+
+        printf "\e[0mKilling process before removing(s)\n"
+        if [[ $(pgrep -f Flipper.app) ]]; then kill $(pgrep -f Flipper.app); fi
+        if [[ $(pgrep -f Xcode.app) ]]; then kill $(pgrep -f Xcode.app); fi
+        sudo killall -9 com.apple.CoreSimulator.CoreSimulatorService &>/dev/null
+        sleep 2
+
         printf "\e[0mRemoving folder(s)\n"
         for ((i = 0; i < ${#FOLDERS[@]}; i++)); do
             sudo rm -rf "${FOLDERS[$i]}"
         done
+        sleep 1
+
+        # Recreate default simulators
+        xcrun simctl list &>/dev/null
+        xcrun simctl erase all
+
         printf "\e[0mComplete\n"
         break
     elif [[ $REPLY =~ ^[Nn]$ ]]; then
