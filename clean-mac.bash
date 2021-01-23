@@ -55,9 +55,9 @@ while true; do
         sleep 2
 
         printf "\e[0mKilling process before removing(s)\n"
-        if [[ $(pgrep -f Flipper.app) ]]; then kill $(pgrep -f Flipper.app); fi
-        if [[ $(pgrep -f Xcode.app) ]]; then kill $(pgrep -f Xcode.app); fi
-        sudo killall -9 com.apple.CoreSimulator.CoreSimulatorService &>/dev/null
+        if [[ $(pgrep -f Flipper.app) ]]; then kill -2 $(pgrep -f Flipper.app); fi
+        if [[ $(pgrep -f Xcode.app) ]]; then kill -2 $(pgrep -f Xcode.app); fi
+        sudo killall -2 com.apple.CoreSimulator.CoreSimulatorService &>/dev/null
         sleep 2
 
         printf "\e[0mRemoving folder(s)\n"
