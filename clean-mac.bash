@@ -22,6 +22,8 @@ FOLDERS=(
     /var/log
     /System/Library/Caches/com.apple.coresymbolicationd
     /Library/Caches/com.apple.iconservices.store
+    # Android Studio related
+    rm -rf ~/.gradle/caches
 )
 
 CAN_REMOVE=false
@@ -57,6 +59,7 @@ while true; do
         printf "\e[0mKilling process before removing(s)\n"
         if [[ $(pgrep -f Flipper.app) ]]; then kill -2 $(pgrep -f Flipper.app); fi
         if [[ $(pgrep -f Xcode.app) ]]; then kill -2 $(pgrep -f Xcode.app); fi
+        if [[ $(pgrep -f Android Studio.app) ]]; then kill -9 $(pgrep -f Android Studio.app); fi
         sudo killall -2 com.apple.CoreSimulator.CoreSimulatorService &>/dev/null
         sleep 2
 
